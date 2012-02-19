@@ -1,0 +1,29 @@
+ * This acts as a controller for firing events. For example if we have the
+ * following <code>Event</code> object heirachy:
+ *
+ * <pre>
+ *         ClientEvent extends Event
+ *         LoginEvent extends ClientEvent
+ *         LogoutEvent extends ClientEvent
+ * </pre>
+ *
+ * Then add the following <code>EventListener</code> to the
+ * <code>EventManager</code>:
+ *
+ * <pre>
+ * addListener(LoginEvent.class, new EventListener() {
+ * 	public void eventFired(Event e) {
+ * 		System.out.println(e.getClass().getName());
+ * 	}
+ * });
+ * </pre>
+ *
+ * The event listener will only be called when <code>fireEvent</code> fires a
+ * new <code>LoginEvent</code> and the output will always be 'LoginEvent'.
+ * However if we made the listener listen for
+ * <code>addListener(ClientEvent.class,</code>... the event listener will be
+ * called for every <code>LoginEvent</code>, <code>LogoutEvent</code> and
+ * <code>ClientEvent</code> making the output either 'LoginEvent',
+ * 'LogoutEvent' or 'ClientEvent'. Ideally each <code>Event</code> subclass
+ * should be immutable so that all event listeners are guaranteed to receive the
+ * same state.
