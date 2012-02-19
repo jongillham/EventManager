@@ -1,6 +1,5 @@
 package com.qed4.events;
 
-import com.google.common.base.Preconditions;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
@@ -92,14 +91,10 @@ public final class EventManager {
      *            descrived in the first parameter.
      */
     public <T extends Event> void addListener(final Class<? extends T> c, final EventListener<T> l) {
-        Preconditions.checkNotNull(c);
-        Preconditions.checkNotNull(l); 
         listenerQueue.add(new AddListener(c, l));
     }
 
     public <T extends Event> void removeListener(final Class<? extends T> c, final EventListener<T> l) {
-        Preconditions.checkNotNull(c);
-        Preconditions.checkNotNull(l);
         listenerQueue.add(new RemoveListener(c, l));
     }
 
@@ -179,7 +174,6 @@ public final class EventManager {
     }
 
     public synchronized void fireEvent(final Event e) {
-        Preconditions.checkNotNull(e);
         expungeTree();
         for (Runnable op = listenerQueue.poll(); op != null; op = listenerQueue.poll()) {
             op.run();
